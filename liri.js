@@ -11,6 +11,7 @@ switch (inputCom) {
 
 	case "spotify-this-song":
 		console.log(input);
+		spot();
 		break;
 
 	case "movie-this":
@@ -70,9 +71,6 @@ function omdb() {
 
 	var request = require("request");
 
-	// Grab the movieName which will always be the third node argument.
-	// var movieName = process.argv.splice(2);
-	// console.log("movie! " + movieName);
 	// Then run a request to the OMDB API with the movie specified
 	var queryUrl = "http://www.omdbapi.com/?t=" + input + "&y=&plot=short&r=json";
 
@@ -84,8 +82,8 @@ function omdb() {
   		// If the request is successful
   		if (!error && response.statusCode === 200) {
 
-    		// Parse the body of the site and recover just the imdbRating
-   	 		// (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
+    		// console logs
+   	 		
 
     		console.log(JSON.parse(body).Title);
     		console.log(JSON.parse(body).Year);	 	
@@ -100,4 +98,25 @@ function omdb() {
     	
   		}
 	});
+}
+
+//spotify
+
+function spot() {
+
+	var spotify = require('spotify');
+
+	spotify.search({ type: 'track', query: input }, function(err, data) {
+    	if ( err ) {
+        	console.log('Error occurred: ' + err);
+        	return;
+		}
+		//console logs
+ 		//console.log(JSON.stringify(data.tracks.items[0], null, 2));
+ 		console.log(JSON.stringify("Artist: " + data.tracks.items[0].album.artists[0].name, null, 2));
+ 		console.log(JSON.stringify("Track: " + data.tracks.items[0].name, null, 2));
+ 		console.log(JSON.stringify("Album: " + data.tracks.items[0].album.name, null, 2));
+ 		console.log(JSON.stringify("Preview link: " + data.tracks.items[0].preview_url, null, 2));
+
+ 	 });
 }
