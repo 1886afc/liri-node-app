@@ -23,9 +23,10 @@ switch (inputCom) {
 		omdb();
 		break;
 //runs the spotify function if process.argv[2] is my-tweets
-	// case "do-what-it says":
-	// 	console.log(input);
-	// 	break;
+	case "do-what-it-says":
+		console.log(input);
+    doWhat();
+		break;
 }
 
 
@@ -160,4 +161,31 @@ function spot() {
     // writes to log *****bonus*****
 
  	 });
+}
+//do what it says
+//do what it says function
+function doWhat() {
+  // package for spotify api
+  input = fs.readFile("random.txt", 'utf8',  function(err, data) {
+    if (err) {
+      throw error;
+  }
+    });
+  var spotify = require('spotify');
+  // runs spotify api for track search
+  spotify.search({ type: 'track', query: input }, function(err, data) {
+      if ( err ) {
+          console.log('Error occurred: ' + err);
+          return;
+    }
+    //console logs
+    //console.log(JSON.stringify(data.tracks.items[0], null, 2));
+    console.log(JSON.stringify("Artist: " + data.tracks.items[0].album.artists[0].name, null, 2));
+    console.log(JSON.stringify("Track: " + data.tracks.items[0].name, null, 2));
+    console.log(JSON.stringify("Album: " + data.tracks.items[0].album.name, null, 2));
+    console.log(JSON.stringify("Preview link: " + data.tracks.items[0].preview_url, null, 2));
+
+    // writes to log *****bonus*****
+
+   });
 }
